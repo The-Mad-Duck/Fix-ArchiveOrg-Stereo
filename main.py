@@ -25,7 +25,7 @@ def SingleFolderMerge(dir):
 
 
     for item in wiper:
-        if item.endswith(".asd"):
+        if item.endswith(".asd") or item.endswith(".s3p"):
             os.remove(os.path.join(foldername, item))
 
 
@@ -48,6 +48,12 @@ def SingleFolderMerge(dir):
         except:
             print("Well fuck")
 
+def remove_empty_folders(path_abs):
+    walk = list(os.walk(path_abs))
+    for path, _, _ in walk[::-1]:
+        if len(os.listdir(path)) == 0:
+            os.removedirs(os.path.normpath(path))
+
 dirs = next(os.walk(arg1))[1]
 print(dirs)
 for d in dirs:
@@ -55,6 +61,7 @@ for d in dirs:
     print(find)
     for sd in find:
         SingleFolderMerge(arg1 + "/" + d + "/" + sd)
+remove_empty_folders(arg1)
 
 
 
